@@ -1,21 +1,59 @@
-﻿@model List<Employee>
+﻿@using Newtonsoft.Json
+@model List<Employee>
 
-<h2>Employee Table</h2>
+<section id="employee_table">
+    <h2>Employee Table</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Total Time Worked</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var employee in Model)
-        {
-            <tr class="@(employee.TotalTimeWorked < 100 ? "underNorm" : "")">
-                <td>@employee.EmployeeName</td>
-                <td>@employee.TotalTimeWorked</td>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Total Time Worked</th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in Model)
+            {
+                <tr class="@(employee.TotalTimeWorked < 100 ? "underNorm" : "")">
+                    <td>@employee.EmployeeName</td>
+                    <td>@employee.TotalTimeWorked</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+
+<section id="employee_chart">
+    <h2>Employee Chart</h2>
+    <canvas id="pieChart" width="400" height="400"></canvas>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var ctx = document.getElementById('pieChart').getContext('2d');
+    var data = @Html.Raw(JsonConvert.SerializeObject(Model));
+
+    var chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: data.map(item => item.EmployeeName),
+            datasets: [{
+                data: data.map(item => item.TotalTimeWorkedPercentage),
+                backgroundColor: [
+                    '#D86057',
+                    '#E6BCAC',
+                    '#9A4F3C',
+                    '#3C2D2A',
+                    '#BC9F4F',
+                    '#D7CED1',
+                    '#334075',
+                    '#246D73'
+                ]
+            }]
+        },
+        options: {
+            responsive: false
         }
-    </tbody>
-</table>
+    });
+</script>

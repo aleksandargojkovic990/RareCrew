@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace RareCrew_CSharp.Models
+﻿namespace RareCrew_CSharp.Models
 {
     public class Employee : IEntity
     {
@@ -11,5 +9,6 @@ namespace RareCrew_CSharp.Models
         public string EntryNotes { get; set; }
         public DateTime? DeletedOn { get; set; }
         public double TotalTimeWorked { get; set; }
+        public double TotalTimeWorkedPercentage { get; set; }
     }
 }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RareCrew_CSharp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+31078fc901fafd2f0edc50cd73c59f4216a658bf")]
 [assembly: System.Reflection.AssemblyProductAttribute("RareCrew_CSharp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RareCrew_CSharp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

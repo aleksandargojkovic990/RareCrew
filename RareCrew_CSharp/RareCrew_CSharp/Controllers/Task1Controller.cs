@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using RareCrew_CSharp.Models;
 using RareCrew_CSharp.SystemOperations;
-using System.Net.Http;
 
 namespace RareCrew_CSharp.Controllers
 {
@@ -19,31 +17,39 @@ namespace RareCrew_CSharp.Controllers
 
         public IActionResult Task1()
         {
-            return View(GetEmployees());
+            return View(SortEmployees());
         }
 
-        private List<Employee> GetEmployees() 
+        private List<Employee> SortEmployees()
         {
-            GetSO<Employee> getSO = new GetSO<Employee>(_httpClientFactory, _configuration);
-            getSO.ExecuteTemplate(new Employee());
-            List<Employee> employees = getSO.Result;
+            List<Employee> employees = GetEmployees();
 
+            double totalTimeWorked = 0;
             foreach (var employee in employees)
             {
                 employee.TotalTimeWorked = (employee.EndTimeUtc - employee.StarTimeUtc).TotalHours;
+                totalTimeWorked += employee.TotalTimeWorked;
             }
 
-            var distinctEmployees = employees
-            .GroupBy(e => e.EmployeeName)
-            .Select(group => new Employee
-            {
-                EmployeeName = group.Key,
-                TotalTimeWorked = group.Sum(e => e.TotalTimeWorked)
-            })
-            .OrderByDescending(e => e.TotalTimeWorked)
-            .ToList();
+            double ttw = 0;
+            var distinctEmployees = employees.GroupBy(e => e.EmployeeName)
+                                                .Select(group => new Employee
+                                                {
+                                                    EmployeeName = group.Key,
+                                                    TotalTimeWorked = ttw = group.Sum(e => e.TotalTimeWorked),
+                                                    TotalTimeWorkedPercentage = (ttw / totalTimeWorked) * 100
+                                                })
+                                                .OrderByDescending(e => e.TotalTimeWorked)
+                                                .ToList();
 
             return distinctEmployees;
+        }
+
+        private List<Employee> GetEmployees()
+        {
+            GetSO<Employee> getSO = new GetSO<Employee>(_httpClientFactory, _configuration);
+            getSO.ExecuteTemplate(new Employee());
+            return getSO.Result;
         }
     }
 }
