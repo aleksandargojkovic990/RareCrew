@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
         return acc;
       }, [])
       .map((employee: any) => {
-        ttw += employee.TotalTimeWorked || 0;
+        ttw = employee.TotalTimeWorked || 0;
         
         return {
           ...employee,
