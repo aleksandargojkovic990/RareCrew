@@ -1,0 +1,18 @@
+<section id="employee_table">
+    <h2>Employee Table</h2>
+  
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Total Time Worked</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let e of employees" class="{{ e.TotalTimeWorked < 100 ? 'underNorm' : '' }}">
+          <td>{{ e.EmployeeName }}</td>
+          <td>{{ e.TotalTimeWorked }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
